@@ -69,3 +69,4 @@ export async function lireTout(uid, tri) {
 
   return true;
 }
+

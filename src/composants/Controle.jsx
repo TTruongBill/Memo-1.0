@@ -4,16 +4,43 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import * as tacheModele from '../code/tache-modele';
+import { useState, useEffect } from 'react';
 
 export default function Controle({etatTaches, utilisateur}) {  
+  const uid = utilisateur.uid;
   const [taches, setTaches] = etatTaches;
+  const [tri, setTri] = useState(['date', true]);
 
+
+
+  function afficherTouteTaches() {
+    tacheModele.lireTout(uid, tri).then(
+      taches => setTaches(taches)
+    );
+    
+  }
   
+
+  function afficherTacheCompletee() {
+    tacheModele.lireTout(uid, tri).then(
+      taches => setTaches(taches.filter(
+        tache => tache.completee == true
+      ))
+    );
+  }
+  function afficherTacheNonComplet() {
+    tacheModele.lireTout(uid, tri).then(
+      taches => setTaches(taches.filter(
+        tache => tache.completee == false
+      ))
+    );
+  }
+
   function supprimerTacheCompletee(){
-    tacheModele.supprimerCompleter(utilisateur.uid).then(
+    tacheModele.supprimerCompleter(uid).then(
       // On filtre le tableau des tâches localement et on met à jour l'état React "taches"
       () => setTaches(taches.filter(
-        tache => tache.completee == ""
+        tache => tache.completee == true
       ))
     );
   }
@@ -24,9 +51,9 @@ export default function Controle({etatTaches, utilisateur}) {
         size="small" 
         exclusive={true} 
       >
-        <ToggleButton value={'toutes'}>Toutes</ToggleButton>
-        <ToggleButton value={true}>Complétées</ToggleButton>
-        <ToggleButton value={false}>Actives</ToggleButton>
+        <ToggleButton value={'toutes'} onClick={afficherTouteTaches}>Toutes</ToggleButton>
+        <ToggleButton value={true} onClick={afficherTacheCompletee}>Complétées</ToggleButton>
+        <ToggleButton value={false} onClick={afficherTacheNonComplet}>Actives</ToggleButton>
       </ToggleButtonGroup>
       <span className="compte">
         ?? tâches actives
