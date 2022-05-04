@@ -4,7 +4,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import * as tacheModele from '../code/tache-modele';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Controle({etatTaches, utilisateur}) {  
   const uid = utilisateur.uid;
@@ -15,12 +15,11 @@ export default function Controle({etatTaches, utilisateur}) {
 
   function afficherTouteTaches() {
     tacheModele.lireTout(uid, tri).then(
-      taches => setTaches(taches)
+      taches => setTaches([ ...taches])
     );
     
   }
   
-
   function afficherTacheCompletee() {
     tacheModele.lireTout(uid, tri).then(
       taches => setTaches(taches.filter(
@@ -40,7 +39,7 @@ export default function Controle({etatTaches, utilisateur}) {
     tacheModele.supprimerCompleter(uid).then(
       // On filtre le tableau des tâches localement et on met à jour l'état React "taches"
       () => setTaches(taches.filter(
-        tache => tache.completee == true
+        tache => tache.completee == ""
       ))
     );
   }

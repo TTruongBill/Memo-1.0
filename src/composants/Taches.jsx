@@ -4,7 +4,6 @@ import * as tacheModele from '../code/tache-modele';
 import { useState, useEffect } from 'react';
 
 export default function Taches({etatTaches, utilisateur}) {
-  const uid = utilisateur.uid;
   const [taches, setTaches] = etatTaches;
   const [tri, setTri] = useState(['date', true]);
 
@@ -12,10 +11,10 @@ export default function Taches({etatTaches, utilisateur}) {
    * On cherche les tâches une seule fois après l'affichage du composant
    */
   useEffect(() => 
-    tacheModele.lireTout(uid, tri).then(
+    tacheModele.lireTout(utilisateur.uid, tri).then(
       taches => setTaches(taches)
     )
-  , [setTaches, uid, tri]);
+  , [setTaches, utilisateur.uid, tri]);
 
   /**
    * Gérer le formulaire d'ajout de nouvelle tâche en appelant la méthode 
@@ -25,6 +24,7 @@ export default function Taches({etatTaches, utilisateur}) {
    * @param {Event} e Objet Event JS qui a déclenché l'appel
    */
   function gererAjoutTache(uid, e) {
+    
     // Prévenir le formulaire d'être soumit (et de faire une requête HTTP 
     // qui causerait une actualisation de la page !!!)
     e.preventDefault();
@@ -34,14 +34,18 @@ export default function Taches({etatTaches, utilisateur}) {
     if(texte.trim() !== '') {
       // Bonne idée : vider le formulaire pour la prochaine tâche
       e.target.reset();
+      
       // Insérer la tâche dans Firestore
       tacheModele.creer(uid, {texte: texte, completee: false}).then(
         // Actualiser l'état des taches en remplaçant le tableau des taches par 
         // une copie du tableau auquel on joint la tâche qu'on vient d'ajouter 
         // dans Firestore (et qui est retournée par la fonction creer()).
-        tache => setTaches([tache, ...taches])
-      );
+        tacheModele.lireTout(uid, tri).then(
+          taches => setTaches([ ...taches]))
+      )
+
     }
+    
   }
 
   /**
@@ -79,7 +83,7 @@ export default function Taches({etatTaches, utilisateur}) {
 
   return (
     <section className="Taches">
-      <form onSubmit={e => gererAjoutTache(uid, e)}>
+      <form onSubmit={e => gererAjoutTache(utilisateur.uid, e)}>
         <input 
           type="text"   
           placeholder="Ajoutez une tâche ..." 
