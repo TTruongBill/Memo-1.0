@@ -57,6 +57,7 @@ export default function Taches({etatTaches, utilisateur}) {
     );
   }
 
+ 
   /**
    * Fait basculer l'état de la tâche (complétée <--> non-complétée)
    * @param {string} idTache Identifiant Firestore de la tâche à faire basculer

@@ -1,6 +1,6 @@
 import { bdFirestore, collUtil, collTaches } from './init';
 import { query, orderBy, collection, doc, getDoc, getDocs, addDoc, deleteDoc, 
-          updateDoc, Timestamp } from "firebase/firestore"; 
+          updateDoc, Timestamp, where } from "firebase/firestore"; 
 
 /**
  * Créer une nouvelle tâche pour l'utilisateur connecté
@@ -53,4 +53,19 @@ export async function lireTout(uid, tri) {
  export async function basculer(uid, idTache, etatCompletee) {
   let docRef = doc(bdFirestore, collUtil, uid, collTaches, idTache);
   return await updateDoc(docRef, {completee: !etatCompletee});
+}
+
+/**
+ * Supprimer les tâche complétées pour l'utilisateur connecté
+ * @param {string} uid identifiant d'utilisateur Firebase 
+ */
+ export async function supprimerCompleter(uid) {
+  let docRef = await getDocs(query(collection(bdFirestore, collUtil, uid, collTaches), where('completee',"==", true)));
+
+  for(let taches of docRef.docs){
+    await deleteDoc(taches.ref);
+
+  }
+
+  return true;
 }

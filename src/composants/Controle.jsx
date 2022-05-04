@@ -3,8 +3,21 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import * as tacheModele from '../code/tache-modele';
 
 export default function Controle({etatTaches, utilisateur}) {  
+  const [taches, setTaches] = etatTaches;
+
+  
+  function supprimerTacheCompletee(){
+    tacheModele.supprimerCompleter(utilisateur.uid).then(
+      // On filtre le tableau des tâches localement et on met à jour l'état React "taches"
+      () => setTaches(taches.filter(
+        tache => tache.completee == ""
+      ))
+    );
+  }
+
   return (
     <footer className="Controle">
       <ToggleButtonGroup 
@@ -21,7 +34,7 @@ export default function Controle({etatTaches, utilisateur}) {
       <IconButton 
         aria-label="Supprimer toutes les tâches complétées"
         color="error" 
-        onClick={() => alert('À implémenter au point B du TP#2')} 
+        onClick={supprimerTacheCompletee} 
         title="Supprimer toutes les tâches complétées"
       >
         <DeleteIcon/>
