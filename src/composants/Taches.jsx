@@ -40,8 +40,7 @@ export default function Taches({etatTaches, utilisateur}) {
         // Actualiser l'état des taches en remplaçant le tableau des taches par 
         // une copie du tableau auquel on joint la tâche qu'on vient d'ajouter 
         // dans Firestore (et qui est retournée par la fonction creer()).
-        tacheModele.lireTout(uid, tri).then(
-          taches => setTaches([ ...taches]))
+        tache => setTaches([tache, ...taches])
       )
 
     }
