@@ -55,7 +55,7 @@ export default function Controle({etatTaches, utilisateur}) {
         <ToggleButton value={false} onClick={afficherTacheNonComplet}>Actives</ToggleButton>
       </ToggleButtonGroup>
       <span className="compte">
-        ?? tâches actives
+        tâches actives
       </span>
       <IconButton 
         aria-label="Supprimer toutes les tâches complétées"

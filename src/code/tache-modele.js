@@ -26,7 +26,7 @@ export async function creer(uid, tache) {
  */
 export async function lireTout(uid, tri) {
   return getDocs(query(collection(bdFirestore, collUtil, uid, collTaches), 
-    orderBy(tri[0], tri[1]?'desc':'asc'))).
+    orderBy(tri[0], tri[1]?'desc':'asc',), orderBy("completee", "Arrays"))).
     then(
       qs  => qs.docs.map(doc => ({id: doc.id, ...doc.data()})) 
     );
