@@ -8,7 +8,6 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 export default function Tache({id, texte, completee, date, supprimerTache, basculerEtatTache}) {
   return (
-    // Remarquez l'utilisation d'un gabarit littéral JS à l'intérieur du gabarit JSX :-0
     <div className={`Tache ${completee ? 'completee': ''}`}>
       <IconButton color="success" className='btn-padding-reduit-gauche' onClick={() => basculerEtatTache(id, completee)}>
         <CheckCircleIcon />
