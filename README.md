@@ -20,6 +20,7 @@ Le Gestionnaire de tâches est une application web conçue pour aider les utilis
 L'application est déployée en utilisant l'hébergement Firebase. Accédez à la version en direct [ici](https://react-755b3.web.app/).
 
 ## Historique de repo
-
+- [version 0.1](https://github.com/TTruongBill/memo-0.1)
+- [version 0.2](https://github.com/TTruongBill/memo-0.2)
 ## Licence
 Ce projet est sous licence MIT License.
